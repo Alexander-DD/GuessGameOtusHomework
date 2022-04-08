@@ -14,13 +14,14 @@ namespace GuessGame
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((_, services) =>
                 {
-                    services.AddHostedService<Worker<int>>()
-                            .AddScoped<IGameService, GameService<int>>()
-                            .AddScoped<ISettingsService<int>, FromUISettingsService<int>>()
+                    services.AddHostedService<Worker<bool>>()
+                            .AddScoped<IGameService, GameService<bool>>()
+                            .AddScoped<ISettingsService<bool>, FromUISettingsService<bool>>()
                             .AddScoped<IParsingService<int>, IntegerParsingService>()
-                            .AddScoped<IValidationService<int>, ValidationService<int>>()
-                            .AddScoped<IRandomizer<int>, IntegerRandomizer>()
-                            .AddScoped<ICompareService<int>, IntCompareService>()
+                            .AddScoped<IParsingService<bool>, BoolParsingService>()
+                            .AddScoped<IValidationService<bool>, ValidationService<bool>>()
+                            .AddScoped<IRandomizer<bool>, BoolRandomizer>()
+                            .AddScoped<ICompareService<bool>, BoolCompareService>()
                             .AddScoped<IUIService, ConsoleUIService>();
                 });
     }
