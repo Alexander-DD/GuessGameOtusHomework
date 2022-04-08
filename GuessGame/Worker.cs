@@ -14,10 +14,12 @@ namespace GuessGame
             _gameService = gameService;
         }
  
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _gameService.StartGame();
             _gameService.EndGame();
+
+            return Task.CompletedTask;
         }
     }
 }
