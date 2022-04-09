@@ -31,14 +31,8 @@ namespace GuessGame.Services
 
             _ui.ShowMessage("PLAYPLAYPLAYPLAYPLAYPLAYPLAYPLAYPLAYPLAY");
 
-            while (true)
+            while (_settingsService.TryAddAttempt())
             {
-                if (!_settingsService.TryAddAttempt())
-                {
-                    _ui.ShowMessage("GAME OVER");
-                    break;
-                }
-
                 _ui.ShowMessage("-------------------");
                 _ui.ShowMessage("Enter value:");
 
@@ -55,22 +49,16 @@ namespace GuessGame.Services
                 }
 
                 int compareResult = _compareService.Compare(value, hidden);
-                if (compareResult < 0)
-                {
-                    _ui.ShowMessage("Your value < ***hidden***");
-                    continue;
-                }
-                else if (compareResult > 0)
-                {
-                    _ui.ShowMessage("***hidden*** < Your value");
-                    continue;
-                }
-                else
+                if (compareResult == 0)
                 {
                     _ui.ShowMessage("Winner, winner, chicken dinner");
-                    break;
+                    return;
                 }
+
+                _ui.ShowMessage(compareResult < 0 ? "Your value < ***hidden***" : "***hidden*** < Your value");
             }
+
+            _ui.ShowMessage("GAME OVER");
         }
 
         public void EndGame()
