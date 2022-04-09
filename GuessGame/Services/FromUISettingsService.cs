@@ -30,33 +30,31 @@ namespace GuessGame.Services
                 T from, to;
                 int maxAttempts;
 
-                while (true)
+                do
                 {
                     _ui.ShowMessage("Enter From:");
-                    if (!_ui.Get(_parsingService, out from))
-                    {
-                        continue;
-                    }
+                } 
+                while (!_ui.Get(_parsingService, out from));
 
+                do
+                {
                     _ui.ShowMessage("Enter To:");
-                    if (!_ui.Get(_parsingService, out to))
-                    {
-                        continue;
-                    }
 
-                    if (!_validationService.ValidateRange(from, to))
-                    {
-                        continue;
-                    }
+                } 
+                while (!_ui.Get(_parsingService, out to));
 
-                    _ui.ShowMessage("Enter max of attempts:");
-                    if (!_ui.Get(_intParsingService, out maxAttempts))
-                    {
-                        continue;
-                    }
-
-                    break;
+                if (!_validationService.ValidateRange(from, to))
+                {
+                    T temp = from;
+                    from = to;
+                    to = temp;
                 }
+
+                do
+                {
+                    _ui.ShowMessage("Enter max of attempts:");
+                } 
+                while (!_ui.Get(_intParsingService, out maxAttempts));
 
                 settings = new GameSettings<T>(from, to, maxAttempts);
             }
