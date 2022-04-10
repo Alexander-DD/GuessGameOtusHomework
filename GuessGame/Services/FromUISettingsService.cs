@@ -46,6 +46,8 @@ namespace GuessGame.Services
                     T temp = from;
                     from = to;
                     to = temp;
+
+                    _ui.ShowWarning("From and To were swapped!");
                 }
 
                 do
