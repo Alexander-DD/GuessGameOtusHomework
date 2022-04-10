@@ -1,5 +1,4 @@
 ﻿using GuessGame.Contracts;
-using System;
 
 namespace GuessGame.Services
 {
@@ -11,7 +10,6 @@ namespace GuessGame.Services
         private readonly IValidationService<T> _validationService;
 
         private GameSettings<T> settings;
-        private int attempts;
 
         public FromUISettingsService(IUIService ui, IParsingService<T> parsingService, IParsingService<int> intParsingService, IValidationService<T> validationService)
         {
@@ -33,14 +31,14 @@ namespace GuessGame.Services
                 do
                 {
                     _ui.ShowMessage("Enter From:");
-                } 
+                }
                 while (!_ui.Get(_parsingService, out from));
 
                 do
                 {
                     _ui.ShowMessage("Enter To:");
 
-                } 
+                }
                 while (!_ui.Get(_parsingService, out to));
 
                 if (!_validationService.ValidateRange(from, to))
@@ -53,32 +51,13 @@ namespace GuessGame.Services
                 do
                 {
                     _ui.ShowMessage("Enter max of attempts:");
-                } 
+                }
                 while (!_ui.Get(_intParsingService, out maxAttempts));
 
                 settings = new GameSettings<T>(from, to, maxAttempts);
             }
 
             return settings;
-        }
-
-        public int GetAttemptCount() => attempts;
-
-        public bool TryAddAttempt()
-        {
-            if (settings is null)
-            {
-                throw new Exception("Settings not initialized");
-            }
-
-            attempts++;
-
-            if (attempts > settings.MaxAttempts)
-            {
-                return false;
-            }
-
-            return true;
         }
     }
 }

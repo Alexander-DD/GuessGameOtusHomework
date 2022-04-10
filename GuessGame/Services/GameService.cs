@@ -27,11 +27,20 @@ namespace GuessGame.Services
             _ui.ShowMessage("Hi there, this is a GUESSING GAME!!!");
 
             GameSettings<T> settings = _settingsService.GetSettings();
+
+            if (settings is null)
+            {
+                _ui.ShowError("Settings not initialized");
+                return;
+            }
+
+            AttemptsCounter attemptsCounter = new AttemptsCounter(settings.MaxAttempts); 
+
             T hidden = _randomService.Random(settings);
 
             _ui.ShowMessage("PLAYPLAYPLAYPLAYPLAYPLAYPLAYPLAYPLAYPLAY");
 
-            while (_settingsService.TryAddAttempt())
+            while (attemptsCounter.TryAddAttempt())
             {
                 _ui.ShowMessage("-------------------");
                 _ui.ShowMessage("Enter value:");

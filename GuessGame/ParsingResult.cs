@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace GuessGame
 {
-
     public class ParsingResult<R> : IParsingResult<R>
     {
         public R Value { get; private set; }
