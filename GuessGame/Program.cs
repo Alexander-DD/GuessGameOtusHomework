@@ -16,13 +16,15 @@ namespace GuessGame
                 {
                     services.AddHostedService<Worker<bool>>()
                             .AddScoped<IGameService, GameService<bool>>()
-                            .AddScoped<ISettingsService<bool>, FromUISettingsService<bool>>()
                             .AddScoped<IParsingService<int>, IntegerParsingService>()
                             .AddScoped<IParsingService<bool>, BoolParsingService>()
                             .AddScoped<IValidationService<bool>, ValidationService<bool>>()
+                            .AddScoped<IInitialValidationService<bool>, InitialValidationService<bool>>()
                             .AddScoped<IRandomizer<bool>, BoolRandomizer>()
                             .AddScoped<ICompareService<bool>, BoolCompareService>()
-                            .AddScoped<IUIService, ConsoleUIService>();
+                            .AddScoped<IUIService, ConsoleUIService>()
+                            .AddSingleton<ISettingsService<bool>, FromUISettingsService<bool>>()
+                            .AddSingleton<AttemptsCounter<bool>>();
                 });
     }
 }

@@ -3,6 +3,7 @@
 {
     public interface ISettingsService<T>
     {
-        public GameSettings<T> GetSettings();
+        public void InitializeSettings();
+        public GameSettings<T> Settings { get; }
     }
 }

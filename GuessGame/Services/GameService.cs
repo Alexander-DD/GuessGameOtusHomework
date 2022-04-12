@@ -11,8 +11,9 @@ namespace GuessGame.Services
         private readonly ICompareService<T> _compareService;
         private readonly IRandomizer<T> _randomService;
         private readonly IValidationService<T> _validationService;
+        private readonly AttemptsCounter<T> _attemptsCounter;
 
-        public GameService(IUIService ui, IParsingService<T> parsingService, ISettingsService<T> settingsService, ICompareService<T> compareService, IRandomizer<T> randomService, IValidationService<T> validationService)
+        public GameService(IUIService ui, IParsingService<T> parsingService, ISettingsService<T> settingsService, ICompareService<T> compareService, IRandomizer<T> randomService, IValidationService<T> validationService, AttemptsCounter<T> attemptsCounter)
         {
             _ui = ui;
             _parsingService = parsingService;
@@ -20,27 +21,20 @@ namespace GuessGame.Services
             _compareService = compareService;
             _randomService = randomService;
             _validationService = validationService;
+            _attemptsCounter = attemptsCounter;
         }
 
         public void StartGame()
         {
             _ui.ShowMessage("Hi there, this is a GUESSING GAME!!!");
 
-            GameSettings<T> settings = _settingsService.GetSettings();
+            _settingsService.InitializeSettings();
 
-            if (settings is null)
-            {
-                _ui.ShowError("Settings not initialized");
-                return;
-            }
-
-            AttemptsCounter attemptsCounter = new AttemptsCounter(settings.MaxAttempts); 
-
-            T hidden = _randomService.Random(settings);
+            T hidden = _randomService.Random();
 
             _ui.ShowMessage("PLAYPLAYPLAYPLAYPLAYPLAYPLAYPLAYPLAYPLAY");
 
-            while (attemptsCounter.TryAddAttempt())
+            while (_attemptsCounter.TryAddAttempt())
             {
                 _ui.ShowMessage("-------------------");
                 _ui.ShowMessage("Enter value:");
@@ -51,7 +45,7 @@ namespace GuessGame.Services
                     continue;
                 }
 
-                if(!_validationService.ValidateValInRange(value, settings))
+                if(!_validationService.ValidateValInRange(value))
                 {
                     _ui.ShowMessage("Your value out of range");
                     continue;

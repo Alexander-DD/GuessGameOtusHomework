@@ -5,10 +5,16 @@ namespace GuessGame.Services
 {
     public class IntegerRandomizer : IRandomizer<int>
     {
-        public int Random(GameSettings<int> settings)
+        private readonly ISettingsService<int> _settingsService;
+        public IntegerRandomizer(ISettingsService<int> settingsService)
+        {
+            _settingsService = settingsService;
+        }
+
+        public int Random()
         {
             Random rnd = new Random();
-            return rnd.Next(settings.From, settings.To);
+            return rnd.Next(_settingsService.Settings.From, _settingsService.Settings.To);
         }
     }
 }

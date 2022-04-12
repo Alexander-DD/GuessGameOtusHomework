@@ -1,13 +1,15 @@
-﻿namespace GuessGame
+﻿using GuessGame.Contracts;
+
+namespace GuessGame
 {
-    public class AttemptsCounter
+    public class AttemptsCounter<T>
     {
-        private int maxAttempts;
         private int attempts;
 
-        public AttemptsCounter(int maxAttempts)
+        private readonly ISettingsService<T> _settingsService;
+        public AttemptsCounter(ISettingsService<T> settingsService)
         {
-            this.maxAttempts = maxAttempts;
+            _settingsService = settingsService;
         }
 
         public int GetAttemptCount() => attempts;
@@ -16,7 +18,7 @@
         {
             attempts++;
 
-            return attempts <= maxAttempts;
+            return attempts <= _settingsService.Settings.MaxAttempts;
         }
     }
 }

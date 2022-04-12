@@ -9,10 +9,16 @@ namespace GuessGame.Services
 {
     internal class BoolRandomizer : IRandomizer<bool>
     {
-        public bool Random(GameSettings<bool> settings)
+        private readonly ISettingsService<bool> _settingsService;
+        public BoolRandomizer(ISettingsService<bool> settingsService)
+        {
+            _settingsService = settingsService;
+        }
+
+        public bool Random()
         {
             Random rnd = new Random();
-            return rnd.Next(100) < 50 ? settings.From: settings.To;
+            return rnd.Next(100) < 50 ? _settingsService.Settings.From: _settingsService.Settings.To;
         }
     }
 }
