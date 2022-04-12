@@ -7,14 +7,6 @@ namespace GuessGame.Contracts
         void ShowMessage(string message);
         void ShowMessages(IList<string> messages);
 
-        void ShowWarning(string warning);
-        void ShowWarnings(IList<string> warnings);
-
-        void ShowError(string error);
-        void ShowErrors(IList<string> error);
-
-        void Clear();
-
         bool Get<T>(IParsingService<T> parsingService, out T value);
     }
 }
