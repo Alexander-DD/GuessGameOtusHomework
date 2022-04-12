@@ -5,15 +5,17 @@ namespace GuessGame.Services
     public class FromUISettingsService<T> : ISettingsService<T>
     {
         private readonly IUIService _ui;
+        private readonly IUIErrorsService _uiErrors;
         private readonly IParsingService<T> _parsingService;
         private readonly IParsingService<int> _intParsingService;
         private readonly IInitialValidationService<T> _initialValidationService;
 
         private GameSettings<T> settings;
 
-        public FromUISettingsService(IUIService ui, IParsingService<T> parsingService, IParsingService<int> intParsingService, IInitialValidationService<T> initialValidationService)
+        public FromUISettingsService(IUIService ui, IUIErrorsService uiErrors, IParsingService<T> parsingService, IParsingService<int> intParsingService, IInitialValidationService<T> initialValidationService)
         {
             _ui = ui;
+            _uiErrors = uiErrors;
             _parsingService = parsingService;
             _intParsingService = intParsingService;
             _initialValidationService = initialValidationService;
@@ -52,7 +54,7 @@ namespace GuessGame.Services
                 from = to;
                 to = temp;
 
-                _ui.ShowWarning("From and To were swapped!");
+                _uiErrors.ShowWarning("From and To were swapped!");
             }
 
             do

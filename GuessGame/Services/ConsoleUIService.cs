@@ -6,6 +6,13 @@ namespace GuessGame.Services
 {
     public class ConsoleUIService : IUIService
     {
+        private readonly IUIErrorsService _uiErrorsService;
+
+        public ConsoleUIService(IUIErrorsService uiErrorsService)
+        {
+            _uiErrorsService = uiErrorsService;
+        }
+
         public bool Get<T>(IParsingService<T> _parsingService, out T value)
         {
             string input = Console.ReadLine();
@@ -20,7 +27,7 @@ namespace GuessGame.Services
             else
             {
                 value = default(T);
-                ShowErrors(parsingResult.Errors);
+                _uiErrorsService.ShowErrors(parsingResult.Errors);
                 return false;
             }
 
@@ -37,50 +44,6 @@ namespace GuessGame.Services
             {
                 Console.WriteLine(message);
             }
-        }
-
-        public void ShowWarning(string warning)
-        {
-            Console.WriteLine();
-            Console.WriteLine("Warning:");
-            Console.WriteLine(warning);
-            Console.WriteLine();
-        }
-
-        public void ShowWarnings(IList<string> warnings)
-        {
-            Console.WriteLine();
-            Console.WriteLine("Warnings:");
-
-            foreach (string warning in warnings)
-            {
-                Console.WriteLine(warning);
-            }
-
-            Console.WriteLine();
-        }
-
-        public void ShowError(string error)
-        {
-            Console.WriteLine();
-            Console.WriteLine("***Error occured:***");
-            Console.WriteLine(error);
-            Console.WriteLine("********************");
-            Console.WriteLine();
-        }
-
-        public void ShowErrors(IList<string> errors)
-        {
-            Console.WriteLine();
-            Console.WriteLine("***Errors occured:***");
-
-            foreach (string error in errors)
-            {
-                Console.WriteLine(error);
-            }
-
-            Console.WriteLine("*********************");
-            Console.WriteLine();
         }
 
         public void Clear()

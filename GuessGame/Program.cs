@@ -23,6 +23,7 @@ namespace GuessGame
                             .AddScoped<IRandomizer<bool>, BoolRandomizer>()
                             .AddScoped<ICompareService<bool>, BoolCompareService>()
                             .AddScoped<IUIService, ConsoleUIService>()
+                            .AddScoped<IUIErrorsService, ConsoleUIErrorsService>()
                             .AddSingleton<ISettingsService<bool>, FromUISettingsService<bool>>()
                             .AddSingleton<AttemptsCounter<bool>>();
                 });
