@@ -1,11 +1,8 @@
 ﻿using GuessGame.Contracts;
-using Microsoft.Extensions.Hosting;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace GuessGame
+namespace GuessGame.Services
 {
-    public class Worker<T> : BackgroundService
+    public class Worker<T> : IWorker
     {
         private readonly IGameService _gameService;
 
@@ -13,13 +10,11 @@ namespace GuessGame
         {
             _gameService = gameService;
         }
- 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+
+        public void StartGame()
         {
             _gameService.StartGame();
             _gameService.EndGame();
-
-            return Task.CompletedTask;
         }
     }
 }
